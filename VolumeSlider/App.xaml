@@ -1,0 +1,20 @@
+﻿<Application x:Class="VolumeSlider.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:VolumeSlider"
+             xmlns:converters="clr-namespace:VolumeSlider.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ModernStyles.xaml"/>
+                <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <converters:BoolToMuteTextConverter x:Key="BoolToMuteTextConverter"/>
+            <converters:BoolToThemeTextConverter x:Key="BoolToThemeTextConverter"/>
+            <converters:SliderValueToHeightConverter x:Key="SliderValueToHeightConverter"/>
+            <converters:BoolInverterConverter x:Key="BoolInverterConverter"/>
+            <!-- Add theme dictionaries here later -->
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

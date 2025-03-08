@@ -1,0 +1,63 @@
+<Window x:Class="VolumeSlider.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VolumeSlider.Views"
+        xmlns:models="clr-namespace:VolumeSlider.Models"
+        mc:Ignorable="d"
+        Title="Settings"
+        Height="300" 
+        Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Minimize to Tray -->
+        <CheckBox Grid.Row="0"
+                  Content="Minimize to tray instead of taskbar"
+                  IsChecked="{Binding MinimizeToTray}"
+                  Margin="0,0,0,15"/>
+
+        <!-- Startup Behavior -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,15">
+            <TextBlock Text="Startup Behavior:"
+                       Margin="0,0,0,5"/>
+            <ComboBox SelectedItem="{Binding StartupBehavior}">
+                <models:StartupBehavior>Normal</models:StartupBehavior>
+                <models:StartupBehavior>Minimized</models:StartupBehavior>
+                <models:StartupBehavior>MinimizedToTray</models:StartupBehavior>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Theme -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,15">
+            <TextBlock Text="Theme:"
+                       Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Light"
+                           IsChecked="{Binding IsDarkTheme, Converter={StaticResource BoolInverterConverter}}"
+                           Margin="0,0,15,0"/>
+                <RadioButton Content="Dark"
+                           IsChecked="{Binding IsDarkTheme}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- OK Button -->
+        <Button Grid.Row="4"
+                Content="OK"
+                Width="100"
+                Height="32"
+                HorizontalAlignment="Right"
+                Click="OnOKClick"/>
+    </Grid>
+</Window> 

@@ -1,0 +1,25 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Base Colors -->
+    <Color x:Key="BackgroundColor">#202020</Color>
+    <Color x:Key="ForegroundColor">#FFFFFF</Color>
+    <Color x:Key="AccentColor">#60CDFF</Color>
+    <Color x:Key="BorderColor">#404040</Color>
+    <Color x:Key="ControlColor">#2B2B2B</Color>
+    <Color x:Key="ControlHoverColor">#353535</Color>
+    <Color x:Key="ControlPressedColor">#454545</Color>
+    <Color x:Key="AnimationAccentColor">#80CDFF</Color>
+    
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{StaticResource ForegroundColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="{StaticResource ForegroundColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{StaticResource ControlColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlLightBrushKey}" Color="{StaticResource ControlHoverColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlDarkBrushKey}" Color="{StaticResource ControlPressedColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlLightLightBrushKey}" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.HotTrackBrushKey}" Color="{StaticResource AccentColor}"/>
+    
+</ResourceDictionary> 

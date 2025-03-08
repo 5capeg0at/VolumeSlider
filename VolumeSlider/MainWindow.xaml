@@ -1,0 +1,200 @@
+﻿<Window x:Class="VolumeSlider.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VolumeSlider"
+        xmlns:viewModels="clr-namespace:VolumeSlider.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding Title}"
+        Height="511" 
+        Width="300"
+        MinHeight="350"
+        MinWidth="280"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType">
+    
+    <Window.Resources>
+        <Storyboard x:Key="VolumeChangeAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                           From="0.6" To="1.0"
+                           Duration="0:0:0.2"/>
+            <DoubleAnimation Storyboard.TargetProperty="(TextBlock.RenderTransform).(ScaleTransform.ScaleX)"
+                           From="1.1" To="1.0"
+                           Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetProperty="(TextBlock.RenderTransform).(ScaleTransform.ScaleY)"
+                           From="1.1" To="1.0"
+                           Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" Amplitude="0.3"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Volume percentage -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock x:Name="VolumeText"
+                      Grid.Column="0"
+                      Text="{Binding Volume, StringFormat=Volume: {0:P0}}"
+                      HorizontalAlignment="Center"
+                      FontSize="16"
+                      Margin="0,0,0,20"
+                      Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
+                      KeyboardNavigation.TabIndex="2">
+                <TextBlock.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </TextBlock.RenderTransform>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Volume}" Value="{x:Null}">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource VolumeChangeAnimation}"/>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            
+            <Button Grid.Column="1"
+                    Content="{Binding IsDarkTheme, Converter={StaticResource BoolToThemeTextConverter}}"
+                    Command="{Binding ToggleThemeCommand}"
+                    Width="32"
+                    Height="32"
+                    Padding="0"
+                    ToolTip="Toggle Theme"
+                    KeyboardNavigation.TabIndex="1"/>
+        </Grid>
+
+        <!-- Volume slider area -->
+        <Grid Grid.Row="1" 
+              Background="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
+              ClipToBounds="True">
+            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    MinHeight="200">
+                <Slider x:Name="VolumeSlider"
+                        Orientation="Vertical"
+                        Minimum="0"
+                        Maximum="1"
+                        Value="{Binding Volume}"
+                        TickFrequency="0.01"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,10"
+                        KeyboardNavigation.TabIndex="3">
+                    <Slider.Resources>
+                        <Style TargetType="Thumb">
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Thumb.DragCompleted">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="Background.Color"
+                                                          To="{StaticResource AccentColor}"
+                                                          Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Slider.Resources>
+                </Slider>
+            </Border>
+        </Grid>
+
+        <!-- Mute button -->
+        <Button Grid.Row="2"
+                Content="{Binding IsMuted, Converter={StaticResource BoolToMuteTextConverter}}"
+                Command="{Binding ToggleMuteCommand}"
+                Width="100"
+                Height="32"
+                Margin="0,10,0,20"
+                KeyboardNavigation.TabIndex="4"/>
+
+        <!-- Device selection area -->
+        <Border Grid.Row="3" 
+                Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Padding="8"
+                Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <ComboBox Grid.Column="0"
+                         ItemsSource="{Binding AvailableDevices}"
+                         SelectedItem="{Binding SelectedDevice}"
+                         Height="32"
+                         VerticalContentAlignment="Center"
+                         Margin="0,0,8,0"
+                         Background="White"
+                         Foreground="Black"
+                         KeyboardNavigation.TabIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                     Foreground="Black"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+                <Button Grid.Column="1"
+                        Content="↻"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Command="{Binding RefreshDevicesCommand}"
+                        Width="32"
+                        Height="32"
+                        Padding="0"
+                        Margin="0,0,8,0"
+                        ToolTip="Refresh Devices"
+                        KeyboardNavigation.TabIndex="1"/>
+
+                <Button Grid.Column="2"
+                        Content="⚙"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Click="OnSettingsClick"
+                        Width="32"
+                        Height="32"
+                        Padding="0"
+                        ToolTip="Settings"
+                        KeyboardNavigation.TabIndex="2"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,30 @@
+## .NET Core
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.lock.json
+.vs/
+.vscode/
+
+## Windows
+Thumbs.db
+Desktop.ini
+
+## macOS
+.DS_Store
+._*
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/ 
